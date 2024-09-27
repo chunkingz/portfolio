@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import * as emailjs from "emailjs-com";
 import "./style.css";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import { meta } from "../../content_en";
@@ -19,10 +18,9 @@ export const ContactUs = () => {
     variant: "",
   });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Simple client-side validation
     if (!formData.title || !formData.email || !formData.guestName || !formData.message) {
       setFormdata({
         ...formData,
@@ -35,43 +33,44 @@ export const ContactUs = () => {
 
     setFormdata({ ...formData, loading: true });
 
-    const templateParams = {
-      from_name: formData.email,
-      user_name: formData.guestName,
-      to_name: contactConfig.YOUR_EMAIL,
-      message_title: formData.title,
-      message: formData.message,
+    const apiData = {
+      title: formData.title,
+      guestName: formData.guestName,
+      email: formData.email,
       phone: formData.phone,
+      message: formData.message,
     };
 
-    emailjs
-      .send(
-        contactConfig.YOUR_SERVICE_ID,
-        contactConfig.YOUR_TEMPLATE_ID,
-        templateParams,
-        contactConfig.YOUR_USER_ID
-      )
-      .then(
-        (result) => {
-          setFormdata({
-            ...formData,
-            loading: false,
-            alertmessage: "SUCCESS! Thank you for your message.",
-            variant: "success",
-            show: true,
-          });
+    try {
+      const response = await fetch("https://8dkwpnuz20.execute-api.us-east-2.amazonaws.com/prod/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
-        (error) => {
-          setFormdata({
-            ...formData,
-            alertmessage: `Failed to send! ${error.text}`,
-            variant: "danger",
-            show: true,
-            loading: false,
-          });
-          document.getElementsByClassName("co_alert")[0].scrollIntoView();
-        }
-      );
+        body: JSON.stringify(apiData),
+      });
+
+      if (response.ok) {
+        setFormdata({
+          ...formData,
+          loading: false,
+          alertmessage: "SUCCESS! Thank you for your message.",
+          variant: "success",
+          show: true,
+        });
+      } else {
+        throw new Error("Failed to submit the form.");
+      }
+    } catch (error) {
+      setFormdata({
+        ...formData,
+        loading: false,
+        alertmessage: `Failed to send! ${error.message}`,
+        variant: "danger",
+        show: true,
+      });
+      document.getElementsByClassName("co_alert")[0].scrollIntoView();
+    }
   };
 
   const handleChange = (e) => {

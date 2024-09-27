@@ -23,58 +23,79 @@ const introData = {
 };
 
 const dataAbout = {
-    title: "abit about my self",
-    aboutMe: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent quis dolor id ligula semper elementum feugiat pretium nulla. Nunc non commodo dolor. Nunc mollis dignissim facilisis. Morbi ut magna ultricies.",
+    title: "A bit about my self",
+    aboutMe: "Experienced Software Developer, with Computer Science background, always finding better solutions to problems and also a writer of clean code.",
 };
-const workTimeline = [{
-        jobTitle: "Designer of week",
-        where: "YAdfi",
+const education = [
+    {
+        major: "Master's Degree",
+        school: "MIU",
+        date: "2023 - Present",
+    },
+    {
+        major: "Bachelor's Degree",
+        school: "FUPRE",
+        date: "2012 - 2016",
+    },
+];
+const workTimeline = [
+    {
+        jobTitle: "Full stack developer",
+        where: "Bayer",
+        date: "2023",
+    },
+    {
+        jobTitle: "Full stack developer",
+        where: "Integration Consulting Group",
+        date: "2021",
+    },
+    {
+        jobTitle: "Full stack developer",
+        where: "Archimydes",
         date: "2020",
-    },
-    {
-        jobTitle: "Designer of week",
-        where: "Jamalya",
-        date: "2019",
-    },
-    {
-        jobTitle: "Designer of week",
-        where: "ALquds",
-        date: "2019",
     },
 ];
 
 const skills = [{
-        name: "Python",
+        name: "Javascript/Typescript",
         value: 90,
     },
     {
-        name: "Djano",
+        name: "Node.js",
         value: 85,
     },
     {
-        name: "Javascript",
-        value: 80,
+        name: "Java",
+        value: 70,
     },
     {
         name: "React",
-        value: 60,
+        value: 85,
     },
     {
-        name: "Jquery",
-        value: 85,
+        name: "Angular",
+        value: 83,
+    },
+    {
+        name: "SQL",
+        value: 80,
+    },
+    {
+        name: "Cloud (AWS)",
+        value: 75,
     },
 ];
 
 const services = [{
-        title: "UI & UX Design",
+        title: "Full stack app design",
         description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed at nisl euismod urna bibendum sollicitudin.",
     },
     {
-        title: "Mobile Apps",
+        title: "Mobile App development",
         description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed at nisl euismod urna bibendum sollicitudin.",
     },
     {
-        title: "Wordpress Design",
+        title: "DevOps and Cloud",
         description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed at nisl euismod urna bibendum sollicitudin.",
     },
 ];
@@ -162,6 +183,7 @@ export {
     meta,
     dataAbout,
     dataPortfolio,
+    education,
     workTimeline,
     skills,
     services,
