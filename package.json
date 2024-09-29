@@ -21,11 +21,12 @@
     },
     "scripts": {
         "start": "react-scripts start",
-        "build": "react-scripts build",
+        "build": "PUBLIC_URL=/ react-scripts build",
         "test": "react-scripts test",
         "eject": "react-scripts eject",
         "predeploy": "yarn build && cp build/index.html build/404.html",
-        "deploy": "gh-pages -d build"
+        "deploy": "gh-pages -d build",
+        "prod": "yarn build && serve -s build"
     },
     "eslintConfig": {
         "extends": [
