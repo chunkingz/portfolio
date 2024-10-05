@@ -2,7 +2,7 @@
 
 My portfolio built with React. 
 
-### [Live preview](https://chunkingz.github.io/react-portfolio/)
+### [Live preview](https://chunkingz.com/)
 
 ## Features
 
