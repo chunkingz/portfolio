@@ -4,6 +4,7 @@ import { Helmet, HelmetProvider } from "react-helmet-async";
 import { meta } from "../../content_en";
 import { Container, Row, Col, Alert } from "react-bootstrap";
 import { contactConfig } from "../../content_en";
+import { Turnstile } from "@marsidev/react-turnstile";
 
 export const ContactUs = () => {
   const [formData, setFormdata] = useState({
@@ -16,12 +17,19 @@ export const ContactUs = () => {
     show: false,
     alertmessage: "",
     variant: "",
+    captchaToken: "",
   });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!formData.title || !formData.email || !formData.guestName || !formData.message) {
+    if (
+      !formData.title ||
+      !formData.email ||
+      !formData.guestName ||
+      !formData.message ||
+      !formData.captchaToken
+    ) {
       setFormdata({
         ...formData,
         show: true,
@@ -39,20 +47,29 @@ export const ContactUs = () => {
       email: formData.email,
       phone: formData.phone,
       message: formData.message,
+      captchaToken: formData.captchaToken,
     };
 
     try {
-      const response = await fetch("https://8dkwpnuz20.execute-api.us-east-2.amazonaws.com/prod/contact", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      const response = await fetch(
+        "https://8dkwpnuz20.execute-api.us-east-2.amazonaws.com/prod/contact",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(apiData),
         },
-        body: JSON.stringify(apiData),
-      });
+      );
 
       if (response.ok) {
         setFormdata({
-          ...formData,
+          title: "",
+          message: "",
+          email: "",
+          guestName: "",
+          phone: "",
+          captchaToken: "",
           loading: false,
           alertmessage: "SUCCESS! Thank you for your message.",
           variant: "success",
@@ -185,9 +202,32 @@ export const ContactUs = () => {
                 required
               ></textarea>
               <br />
+
+              <Turnstile
+                siteKey={process.env.REACT_APP_TURNSTILE_SITE_KEY}
+                onSuccess={(token) =>
+                  setFormdata((prev) => ({
+                    ...prev,
+                    captchaToken: token,
+                  }))
+                }
+                onExpire={() =>
+                  setFormdata((prev) => ({
+                    ...prev,
+                    captchaToken: "",
+                  }))
+                }
+              />
+
+              <br />
+
               <Row>
                 <Col lg="12" className="form-group">
-                  <button className="btn ac_btn" type="submit" disabled={formData.loading}>
+                  <button
+                    className="btn ac_btn"
+                    type="submit"
+                    disabled={formData.loading || !formData.captchaToken}
+                  >
                     {formData.loading ? "Sending..." : "Send"}
                   </button>
                 </Col>
